@@ -1,0 +1,47 @@
+Entité Produit
+Attribut Type Description
+id number Identifiant unique.
+nom string (multilingue) Nom commercial du produit.
+slug string Identifiant URL-friendly.
+marque Marque Référence vers l’entité Marque.
+fournisseur Fournisseur Référence vers l’entité Fournisseur.
+categorie Categorie Catégorie principale (avec hiérarchie).
+sousCategories Categorie[] Catégories secondaires.
+ean string (13) Code-barres EAN-13 avec contrôle de validité.
+hsCode string Code SH douanier.
+description string (multilingue,
+riche) Description détaillée.
+temperature enum { Ambiante, Réfrigéré, Frais, Surgelé }.
+photosUnite Media[] Photos de l’unité produit.
+photosCarton Media[] Photos du carton / suremballage.
+videos Media[] Vidéos optionnelles.
+commandeMin number MOQ – quantité minimale en unités.
+colisage number Nombre d’unités par carton.
+palettisation object Cartons par couche, couches par palette.
+dimensionsUnite object L × l × H et poids brut/net.
+dimensionsCarton object L × l × H, poids et volume du carton.
+dimensionsPalette object L × l × H, poids et volume de la palette.
+Cahier des charges fonctionnel – Plateforme B2B FMCG Export
+Page 15 / 28 — Confidentiel — V1.0
+Attribut Type Description
+prixParPalier PrixPalier[] Paliers de prix selon la quantité.
+devise string Devise de référence du prix.
+incotermsDispo string[] Incoterms proposés par le fournisseur.
+lots Lot[] Lots actifs et historiques.
+ingredientsTexte string (multilingue) Liste des ingrédients.
+ingredientsPhoto Media Photo de la liste des ingrédients.
+nutritionTexte string Tableau nutritionnel structuré.
+nutritionPhoto Media Photo du tableau nutritionnel.
+allergenes string[] Allergènes déclarés.
+regimes string[] Halal, Casher, Bio, Vegan, Sans gluten, etc.
+dureeConservation number Durée de conservation en jours.
+paysOrigine string Pays de fabrication.
+paysExportAutorises string[] Pays vers lesquels l’export est possible.
+stockTotal number (calculé) Somme des quantités des lots actifs.
+certifications string[] Halal, Bio, ISO 22000, HACCP, IFS, BRC, etc.
+noteMoyenne number (/5) Moyenne des avis.
+nbAvis number Nombre d’avis.
+isNew boolean Indique une nouveauté.
+isPromo boolean Indique une promotion en cours.
+estSponsored boolean Mis en avant payant.
+statut enum { actif, inactif, brouillon, archivé }. update the product class

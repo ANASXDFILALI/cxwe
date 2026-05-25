@@ -1,0 +1,320 @@
+import { useEffect, useState } from 'react';
+import { Plus, Pencil, Trash2, X, Save, Search, ToggleLeft, ToggleRight, Mail, Phone, ExternalLink } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
+import type { Supplier } from '../../types';
+
+const toSlug = (s: string) =>
+  s.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]/g, '').replace(/--+/g, '-');
+
+const EMPTY = {
+  name: '', slug: '', contact_name: '', email: '', phone: '',
+  country: '', description: '', logo_url: '', is_active: true,
+};
+
+export default function Suppliers() {
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [modal, setModal] = useState<'add' | 'edit' | null>(null);
+  const [editing, setEditing] = useState<Supplier | null>(null);
+  const [form, setForm] = useState({ ...EMPTY });
+  const [slugLocked, setSlugLocked] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState<string | null>(null);
+
+  const load = async () => {
+    const { data } = await supabase.from('suppliers').select('*').order('name');
+    setSuppliers((data || []) as Supplier[]);
+    setLoading(false);
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const openAdd = () => {
+    setForm({ ...EMPTY });
+    setSlugLocked(false);
+    setEditing(null);
+    setModal('add');
+  };
+
+  const openEdit = (s: Supplier) => {
+    setForm({
+      name: s.name,
+      slug: s.slug,
+      contact_name: s.contact_name || '',
+      email: s.email || '',
+      phone: s.phone || '',
+      country: s.country || '',
+      description: s.description || '',
+      logo_url: s.logo_url || '',
+      is_active: s.is_active,
+    });
+    setSlugLocked(true);
+    setEditing(s);
+    setModal('edit');
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value;
+    setForm(f => ({ ...f, name, slug: slugLocked ? f.slug : toSlug(name) }));
+  };
+
+  const setF = (field: keyof typeof EMPTY) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setForm(f => ({ ...f, [field]: e.target.value }));
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    const payload = { ...form };
+    if (modal === 'edit' && editing) {
+      await supabase.from('suppliers').update(payload).eq('id', editing.id);
+    } else {
+      await supabase.from('suppliers').insert([payload]);
+    }
+    setSaving(false);
+    setModal(null);
+    load();
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Supprimer ce fournisseur ? Les produits associés perdront leur référence fournisseur.')) return;
+    setDeleting(id);
+    await supabase.from('suppliers').delete().eq('id', id);
+    setDeleting(null);
+    load();
+  };
+
+  const toggleActive = async (s: Supplier) => {
+    await supabase.from('suppliers').update({ is_active: !s.is_active }).eq('id', s.id);
+    load();
+  };
+
+  const filtered = suppliers.filter(s =>
+    !search || s.name.toLowerCase().includes(search.toLowerCase()) ||
+    (s.country || '').toLowerCase().includes(search.toLowerCase()) ||
+    (s.contact_name || '').toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-stone-800">Fournisseurs</h1>
+          <p className="text-stone-500 text-sm mt-1">{suppliers.length} fournisseur{suppliers.length !== 1 ? 's' : ''}</p>
+        </div>
+        <button onClick={openAdd}
+          className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+          <Plus className="w-4 h-4" /> Ajouter un fournisseur
+        </button>
+      </div>
+
+      {/* Search */}
+      <div className="relative max-w-sm mb-4">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+        <input type="text" placeholder="Nom, pays, contact..." value={search} onChange={e => setSearch(e.target.value)}
+          className="w-full pl-9 pr-4 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-amber-400 bg-white" />
+      </div>
+
+      {/* Table */}
+      {loading ? (
+        <div className="space-y-3">
+          {Array.from({ length: 5 }).map((_, i) =>
+            <div key={i} className="h-16 bg-white rounded-xl animate-pulse border border-stone-100" />)}
+        </div>
+      ) : (
+        <div className="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
+          {filtered.length === 0 ? (
+            <div className="text-center py-12 text-stone-400 text-sm">Aucun fournisseur trouvé</div>
+          ) : (
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-stone-100 bg-stone-50">
+                  <th className="text-left px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wide">Fournisseur</th>
+                  <th className="text-left px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wide hidden md:table-cell">Contact</th>
+                  <th className="text-left px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wide hidden sm:table-cell">Pays</th>
+                  <th className="text-left px-5 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wide">Statut</th>
+                  <th className="px-5 py-3" />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-stone-50">
+                {filtered.map(s => (
+                  <tr key={s.id} className="hover:bg-stone-50 transition-colors">
+                    <td className="px-5 py-3">
+                      <div className="flex items-center gap-3">
+                        {s.logo_url ? (
+                          <img src={s.logo_url} alt={s.name}
+                            className="w-8 h-8 rounded-lg object-contain bg-stone-100"
+                            onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                        ) : (
+                          <div className="w-8 h-8 rounded-lg bg-stone-100 flex items-center justify-center text-xs font-bold text-stone-400">
+                            {s.name.charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                        <div>
+                          <p className="font-medium text-stone-800">{s.name}</p>
+                          <p className="text-xs text-stone-400 font-mono">{s.slug}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-5 py-3 hidden md:table-cell">
+                      <div className="space-y-0.5">
+                        {s.contact_name && <p className="text-stone-700 text-xs">{s.contact_name}</p>}
+                        {s.email && (
+                          <a href={`mailto:${s.email}`} className="text-xs text-amber-600 hover:underline flex items-center gap-1">
+                            <Mail className="w-3 h-3" />{s.email}
+                          </a>
+                        )}
+                        {s.phone && (
+                          <a href={`tel:${s.phone}`} className="text-xs text-stone-500 flex items-center gap-1">
+                            <Phone className="w-3 h-3" />{s.phone}
+                          </a>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-5 py-3 text-stone-600 hidden sm:table-cell text-sm">
+                      {s.country || '—'}
+                    </td>
+                    <td className="px-5 py-3">
+                      <button onClick={() => toggleActive(s)}>
+                        {s.is_active
+                          ? <ToggleRight className="w-5 h-5 text-emerald-500" />
+                          : <ToggleLeft className="w-5 h-5 text-stone-300" />}
+                      </button>
+                    </td>
+                    <td className="px-5 py-3">
+                      <div className="flex items-center gap-2 justify-end">
+                        <button onClick={() => openEdit(s)}
+                          className="p-1.5 text-stone-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors">
+                          <Pencil className="w-3.5 h-3.5" />
+                        </button>
+                        <button onClick={() => handleDelete(s.id)} disabled={deleting === s.id}
+                          className="p-1.5 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      )}
+
+      {/* Modal */}
+      {modal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-5 border-b border-stone-100 sticky top-0 bg-white rounded-t-2xl">
+              <h2 className="font-bold text-stone-800">
+                {modal === 'add' ? 'Nouveau fournisseur' : `Modifier — ${editing?.name}`}
+              </h2>
+              <button onClick={() => setModal(null)} className="text-stone-400 hover:text-stone-600">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSave} className="p-5 space-y-4">
+              {/* Identité */}
+              <div>
+                <label className="block text-xs font-medium text-stone-600 mb-1.5">Nom du fournisseur *</label>
+                <input required type="text" value={form.name} onChange={handleNameChange}
+                  className="w-full border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100" />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-stone-600 mb-1.5">
+                  Slug <span className="text-stone-400 font-normal">(identifiant URL unique)</span>
+                </label>
+                <div className="flex gap-2">
+                  <input required type="text" value={form.slug}
+                    onChange={e => { setSlugLocked(true); setForm(f => ({ ...f, slug: e.target.value })); }}
+                    className="flex-1 border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400 font-mono" />
+                  {slugLocked && (
+                    <button type="button" onClick={() => { setSlugLocked(false); setForm(f => ({ ...f, slug: toSlug(f.name) })); }}
+                      title="Regénérer depuis le nom"
+                      className="px-3 py-2.5 border border-stone-200 rounded-xl text-xs text-stone-500 hover:bg-stone-50 transition-colors">
+                      ↺
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-stone-600 mb-1.5">Pays</label>
+                  <input type="text" value={form.country} onChange={setF('country')} placeholder="Maroc"
+                    className="w-full border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-stone-600 mb-1.5">Nom du contact</label>
+                  <input type="text" value={form.contact_name} onChange={setF('contact_name')}
+                    className="w-full border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400" />
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-stone-600 mb-1.5">E-mail</label>
+                  <input type="email" value={form.email} onChange={setF('email')}
+                    className="w-full border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-stone-600 mb-1.5">Téléphone</label>
+                  <input type="tel" value={form.phone} onChange={setF('phone')} placeholder="+212 6..."
+                    className="w-full border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-stone-600 mb-1.5">Description</label>
+                <textarea rows={2} value={form.description}
+                  onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+                  className="w-full border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400 resize-none" />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-stone-600 mb-1.5">URL du logo</label>
+                <input type="url" value={form.logo_url} onChange={setF('logo_url')} placeholder="https://..."
+                  className="w-full border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400" />
+                {form.logo_url && (
+                  <div className="mt-2 flex items-center gap-2">
+                    <img src={form.logo_url} alt="Logo preview"
+                      className="w-10 h-10 rounded-lg object-contain bg-stone-100 border border-stone-200"
+                      onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                    <a href={form.logo_url} target="_blank" rel="noreferrer"
+                      className="text-xs text-amber-600 hover:underline flex items-center gap-1">
+                      <ExternalLink className="w-3 h-3" /> Voir
+                    </a>
+                  </div>
+                )}
+              </div>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={form.is_active}
+                  onChange={e => setForm(f => ({ ...f, is_active: e.target.checked }))}
+                  className="w-4 h-4 rounded border-stone-300 text-amber-500" />
+                <span className="text-sm text-stone-700">Fournisseur actif</span>
+              </label>
+
+              <div className="flex gap-3 pt-2">
+                <button type="button" onClick={() => setModal(null)}
+                  className="flex-1 border border-stone-200 text-stone-600 text-sm py-2.5 rounded-xl hover:bg-stone-50 transition-colors">
+                  Annuler
+                </button>
+                <button type="submit" disabled={saving}
+                  className="flex-1 bg-amber-500 hover:bg-amber-400 disabled:opacity-60 text-white text-sm font-semibold py-2.5 rounded-xl flex items-center justify-center gap-2 transition-colors">
+                  {saving
+                    ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    : <Save className="w-4 h-4" />}
+                  {modal === 'add' ? 'Créer' : 'Enregistrer'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
