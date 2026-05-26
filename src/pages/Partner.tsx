@@ -40,7 +40,7 @@ const BENEFITS = [
   { icon: BarChart3,'title': 'Visibilité marché', desc: 'Votre produit référencé dans notre catalogue B2B consulté par des acheteurs internationaux.' },
 ];
 
-const INPUT = 'w-full border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-ma-red focus:ring-2 focus:ring-red-50 transition bg-white';
+const INPUT = 'w-full border border-ma-sand rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-ma-navy focus:ring-2 focus:ring-ma-navy/5 transition bg-white';
 const SELECT = `${INPUT} appearance-none`;
 
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
@@ -158,7 +158,7 @@ export default function Partner() {
   // ── Success ────────────────────────────────────────────────────────────────
   if (submitted) {
     return (
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4 pt-16">
+      <div className="min-h-screen bg-ma-cream flex items-center justify-center px-4 pt-16">
         <div className="bg-white rounded-3xl shadow-lg p-5 sm:p-10 max-w-lg w-full text-center">
           <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <Handshake className="w-10 h-10 text-emerald-600" />
@@ -193,10 +193,10 @@ export default function Partner() {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-ma-cream">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <div className="relative bg-ma-navy pt-24 pb-16 px-4 overflow-hidden">
+      <div className="relative bg-gradient-to-b from-ma-navy to-[#0A1833] pt-24 pb-16 px-4 overflow-hidden">
         <div className="relative max-w-3xl mx-auto text-center">
           <Link to="/" className="inline-flex items-center gap-2 text-stone-400 hover:text-white text-sm mb-6 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Retour

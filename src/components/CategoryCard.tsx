@@ -5,14 +5,14 @@ import { supabase } from '../lib/supabase';
 import type { Category } from '../types';
 
 const CATEGORY_COLORS = [
-  'from-amber-600 to-amber-800',
-  'from-red-700 to-red-900',
-  'from-emerald-600 to-emerald-800',
-  'from-orange-600 to-orange-800',
-  'from-teal-600 to-teal-800',
-  'from-rose-600 to-rose-800',
-  'from-lime-600 to-lime-800',
-  'from-cyan-600 to-cyan-800',
+  'from-[#0F2044] to-[#1A3570]',
+  'from-[#8B2E1A] to-[#C44B38]',
+  'from-[#0D4A29] to-[#1E6B40]',
+  'from-[#5C3418] to-[#9B5A2A]',
+  'from-[#1A3068] to-[#2850A0]',
+  'from-[#3A2010] to-[#6B3820]',
+  'from-[#122B15] to-[#234D28]',
+  'from-[#2C1810] to-[#5C3018]',
 ];
 
 interface Props {
@@ -23,7 +23,6 @@ interface Props {
 export default function CategoryCard({ category, index }: Props) {
   const gradient = CATEGORY_COLORS[index % CATEGORY_COLORS.length];
 
-  // Slideshow state
   const [images, setImages] = useState<string[]>([]);
   const [slide, setSlide] = useState(0);
   const [animated, setAnimated] = useState(true);
@@ -66,12 +65,10 @@ export default function CategoryCard({ category, index }: Props) {
 
   const handleMouseLeave = () => {
     stop();
-    // Snap back without animation
     setAnimated(false);
     setSlide(0);
   };
 
-  // Seamless loop: when we land on the cloned first slide, snap back instantly
   const handleTransitionEnd = () => {
     if (images.length > 1 && slide >= images.length) {
       setAnimated(false);
@@ -81,25 +78,22 @@ export default function CategoryCard({ category, index }: Props) {
 
   useEffect(() => () => stop(), []);
 
-  // Strip = real images + clone of images[0] for seamless wrap
   const strip = images.length > 1 ? [...images, images[0]] : images;
   const N = Math.max(strip.length, 1);
-  // translateX as % of strip's own width: -(slide / N) * 100%
   const translatePct = (slide * 100) / N;
   const activeIdx = images.length > 0 ? slide % images.length : 0;
 
   return (
     <Link
       to={`/catalog/${category.slug}`}
-      className="group relative overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-stone-100"
+      className="group relative overflow-hidden rounded-2xl bg-white shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 border border-ma-sand/60"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* ── Image area ───────────────────────────────────────────────────────── */}
+      {/* Image area */}
       <div className={`relative h-44 bg-gradient-to-br ${gradient} overflow-hidden`}>
 
         {strip.length > 0 ? (
-          /* Sliding strip of product images */
           <div
             className="absolute inset-0 flex h-full"
             style={{
@@ -110,24 +104,18 @@ export default function CategoryCard({ category, index }: Props) {
             onTransitionEnd={handleTransitionEnd}
           >
             {strip.map((src, i) => (
-              <div
-                key={i}
-                className="relative h-full shrink-0"
-                style={{ width: `${100 / N}%` }}
-              >
+              <div key={i} className="relative h-full shrink-0" style={{ width: `${100 / N}%` }}>
                 <img
                   src={src}
                   alt=""
                   className="w-full h-full object-cover"
                   onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
                 />
-                {/* per-slide gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
               </div>
             ))}
           </div>
         ) : (
-          /* Fallback: category image or plain gradient */
           category.image_url && (
             <img
               src={category.image_url}
@@ -138,7 +126,6 @@ export default function CategoryCard({ category, index }: Props) {
           )
         )}
 
-        {/* always-on dark vignette bottom */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
 
         {/* Dot indicators */}
@@ -148,23 +135,21 @@ export default function CategoryCard({ category, index }: Props) {
               <span
                 key={i}
                 className={`block rounded-full transition-all duration-300 ${
-                  i === activeIdx
-                    ? 'w-4 h-1.5 bg-white'
-                    : 'w-1.5 h-1.5 bg-white/40'
+                  i === activeIdx ? 'w-4 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/40'
                 }`}
               />
             ))}
           </div>
         )}
 
-        {/* "Maroc" badge */}
+        {/* Maroc badge */}
         <div className="absolute top-2.5 left-2.5 z-10 pointer-events-none">
           <span className="text-[10px] font-semibold text-white/80 uppercase tracking-widest bg-black/25 backdrop-blur-sm px-2 py-0.5 rounded-full">
             Maroc
           </span>
         </div>
 
-        {/* Image count badge — shown on hover if images loaded */}
+        {/* Slide counter */}
         {images.length > 1 && (
           <div className="absolute top-2.5 right-2.5 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <span className="text-[10px] font-bold text-white bg-black/35 backdrop-blur-sm px-2 py-0.5 rounded-full">
@@ -174,17 +159,17 @@ export default function CategoryCard({ category, index }: Props) {
         )}
       </div>
 
-      {/* ── Content ──────────────────────────────────────────────────────────── */}
+      {/* Content */}
       <div className="p-4">
-        <h3 className="font-semibold text-stone-800 text-sm leading-snug group-hover:text-amber-700 transition-colors">
+        <h3 className="font-semibold text-stone-800 text-sm leading-snug group-hover:text-ma-navy transition-colors">
           {category.name}
         </h3>
         {category.description && (
-          <p className="text-stone-500 text-xs mt-1 line-clamp-2 leading-relaxed">
+          <p className="text-stone-400 text-xs mt-1 line-clamp-2 leading-relaxed">
             {category.description}
           </p>
         )}
-        <div className="flex items-center gap-1 mt-3 text-amber-600 text-xs font-medium">
+        <div className="flex items-center gap-1 mt-3 text-ma-green text-xs font-semibold">
           <span>Voir les produits</span>
           <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
         </div>

@@ -53,21 +53,22 @@ export default function Catalog() {
   );
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-ma-cream">
       {/* Header */}
-      <div className="bg-stone-800 pt-24 pb-12 px-4">
+      <div className="bg-gradient-to-b from-ma-navy to-[#0A1833] pt-24 pb-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
+          <p className="text-ma-gold text-xs font-semibold uppercase tracking-widest mb-3">Export B2B · Maroc</p>
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">Catalogue produits</h1>
-          <p className="text-stone-400 text-sm max-w-xl mx-auto mb-6">
+          <p className="text-stone-400 text-sm max-w-xl mx-auto mb-7">
             Parcourez nos produits alimentaires marocains authentiques disponibles à l'export.
           </p>
 
           {/* View toggle */}
-          <div className="inline-flex bg-stone-700 rounded-xl p-1 mb-6">
+          <div className="inline-flex bg-[#0A1833] rounded-xl p-1 mb-6 border border-white/5">
             <button
               onClick={() => { setView('categories'); setSearch(''); }}
               className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
-                view === 'categories' ? 'bg-amber-500 text-white shadow' : 'text-stone-300 hover:text-white'
+                view === 'categories' ? 'bg-ma-red text-white shadow-sm' : 'text-stone-400 hover:text-white'
               }`}
             >
               <LayoutGrid className="w-4 h-4" /> Catégories
@@ -75,7 +76,7 @@ export default function Catalog() {
             <button
               onClick={() => { setView('brands'); setSearch(''); }}
               className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
-                view === 'brands' ? 'bg-amber-500 text-white shadow' : 'text-stone-300 hover:text-white'
+                view === 'brands' ? 'bg-ma-red text-white shadow-sm' : 'text-stone-400 hover:text-white'
               }`}
             >
               <Building2 className="w-4 h-4" /> Marques
@@ -84,13 +85,13 @@ export default function Catalog() {
 
           {/* Search */}
           <div className="relative max-w-md mx-auto">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-500" />
             <input
               type="text"
               placeholder={view === 'categories' ? 'Rechercher une catégorie…' : 'Rechercher une marque…'}
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 bg-stone-700 border border-stone-600 rounded-xl text-white placeholder-stone-400 focus:outline-none focus:border-amber-500 text-sm"
+              className="w-full pl-11 pr-4 py-3 bg-[#0A1833] border border-white/8 rounded-xl text-white placeholder-stone-500 focus:outline-none focus:border-ma-gold/50 text-sm transition-colors"
             />
           </div>
         </div>
@@ -100,7 +101,7 @@ export default function Catalog() {
         {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {Array.from({ length: 15 }).map((_, i) => (
-              <div key={i} className="rounded-2xl bg-stone-200 animate-pulse h-52" />
+              <div key={i} className="rounded-2xl bg-ma-sand animate-pulse h-52" />
             ))}
           </div>
         ) : view === 'categories' ? (
@@ -142,11 +143,11 @@ export default function Catalog() {
         )}
 
         {/* Contact note */}
-        <div className="mt-16 bg-amber-50 border border-amber-200 rounded-2xl p-6 text-center">
-          <p className="text-amber-800 font-medium text-sm">
+        <div className="mt-16 bg-white border border-ma-sand rounded-2xl p-6 text-center shadow-card">
+          <p className="text-ma-navy font-semibold text-sm">
             Contactez-nous pour les tailles, conditionnements et tarifs spécifiques.
           </p>
-          <p className="text-amber-600 text-xs mt-1">
+          <p className="text-ma-red text-xs mt-1.5 font-medium">
             filalianas0001@gmail.com — +212 605 268 946
           </p>
         </div>

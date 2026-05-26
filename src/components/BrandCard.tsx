@@ -71,12 +71,12 @@ export default function BrandCard({ brand, productCount }: Props) {
   return (
     <Link
       to={`/brand/${brand.slug}`}
-      className="group relative overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-stone-100"
+      className="group relative overflow-hidden rounded-2xl bg-white shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 border border-ma-sand/60"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* ── Image area ─────────────────────────────────────────────────── */}
-      <div className="relative h-44 bg-gradient-to-br from-stone-700 to-stone-900 overflow-hidden">
+      {/* Image area */}
+      <div className="relative h-44 bg-gradient-to-br from-[#0F2044] to-[#1A3570] overflow-hidden">
 
         {strip.length > 0 ? (
           <div
@@ -97,18 +97,17 @@ export default function BrandCard({ brand, productCount }: Props) {
             ))}
           </div>
         ) : (
-          /* No product images yet — show brand logo or placeholder */
           <div className="w-full h-full flex items-center justify-center">
             {brand.logo_url
               ? <img src={brand.logo_url} alt={brand.name} className="max-h-20 max-w-[70%] object-contain opacity-70" />
-              : <Package className="w-12 h-12 text-stone-500" />
+              : <Package className="w-12 h-12 text-blue-300" />
             }
           </div>
         )}
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
 
-        {/* Brand logo overlay (top-centre) */}
+        {/* Brand logo overlay */}
         {brand.logo_url && strip.length > 0 && (
           <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
             <div className="bg-white/90 backdrop-blur-sm rounded-xl px-3 py-1.5 shadow">
@@ -138,15 +137,15 @@ export default function BrandCard({ brand, productCount }: Props) {
         )}
       </div>
 
-      {/* ── Content ──────────────────────────────────────────────────────── */}
+      {/* Content */}
       <div className="p-4">
-        <h3 className="font-bold text-stone-800 text-sm leading-snug group-hover:text-amber-700 transition-colors">
+        <h3 className="font-bold text-stone-800 text-sm leading-snug group-hover:text-ma-navy transition-colors">
           {brand.name}
         </h3>
         {brand.description && (
           <p className="text-stone-500 text-xs mt-1 line-clamp-2 leading-relaxed">{brand.description}</p>
         )}
-        <div className="flex items-center gap-1 mt-3 text-amber-600 text-xs font-medium">
+        <div className="flex items-center gap-1 mt-3 text-ma-green text-xs font-medium">
           <span>Voir les produits</span>
           <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
         </div>

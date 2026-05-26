@@ -66,12 +66,12 @@ export default function CategoryPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-50 pt-24">
+      <div className="min-h-screen bg-ma-cream pt-24">
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="h-8 bg-stone-200 rounded w-48 animate-pulse mb-8" />
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="rounded-2xl bg-stone-200 animate-pulse h-64" />
+              <div key={i} className="rounded-2xl bg-ma-sand animate-pulse h-64" />
             ))}
           </div>
         </div>
@@ -82,9 +82,9 @@ export default function CategoryPage() {
   if (!category) return null;
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-ma-cream">
       {/* Header */}
-      <div className="bg-stone-800 pt-24 pb-10 px-4">
+      <div className="bg-gradient-to-b from-ma-navy to-[#0A1833] pt-24 pb-10 px-4">
         <div className="max-w-6xl mx-auto">
           <Link to="/catalog"
             className="inline-flex items-center gap-2 text-stone-400 hover:text-white text-sm mb-4 transition-colors">
@@ -137,8 +137,8 @@ export default function CategoryPage() {
                       onClick={() => setFilterBrand(filterBrand === b ? '' : b)}
                       className={`text-xs font-semibold px-3 py-1 rounded-full border transition-all ${
                         filterBrand === b
-                          ? 'bg-blue-600 text-white border-blue-600'
-                          : 'bg-white text-stone-600 border-stone-200 hover:border-blue-300'
+                          ? 'bg-ma-green text-white border-ma-green'
+                          : 'bg-white text-stone-600 border-stone-200 hover:border-ma-green'
                       }`}>
                       {b}
                     </button>
@@ -171,7 +171,7 @@ export default function CategoryPage() {
               Contactez-nous directement pour la disponibilité et les tarifs de {category.name}.
             </p>
             <Link to="/quote"
-              className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors">
+              className="inline-flex items-center gap-2 bg-ma-red hover:bg-[#9B1E24] text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors">
               <MessageSquare className="w-4 h-4" /> Demander un devis
             </Link>
           </div>
@@ -204,14 +204,14 @@ export default function CategoryPage() {
         )}
 
         {/* CTA banner */}
-        <div className="mt-12 bg-stone-800 rounded-2xl p-8 text-center">
+        <div className="mt-12 bg-gradient-to-br from-ma-navy to-[#0A1833] rounded-2xl p-8 text-center">
           <h3 className="text-white font-semibold mb-2">Intéressé par {category.name} ?</h3>
           <p className="text-stone-400 text-sm mb-5">
             Obtenez un devis personnalisé avec tailles, conditionnement et tarifs.
           </p>
           <Link
             to={`/quote?category=${encodeURIComponent(category.name)}`}
-            className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold px-7 py-3 rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 bg-ma-red hover:bg-[#9B1E24] text-white text-sm font-semibold px-7 py-3 rounded-xl transition-colors"
           >
             <MessageSquare className="w-4 h-4" />
             Devis pour {category.name}
@@ -238,7 +238,7 @@ export default function CategoryPage() {
               </button>
               <Link
                 to={`/quote?product=${encodeURIComponent(quoteProduct.name)}&category=${encodeURIComponent(category.name)}`}
-                className="flex-1 bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors text-center">
+                className="flex-1 bg-ma-red hover:bg-[#9B1E24] text-white text-sm font-semibold py-2.5 rounded-xl transition-colors text-center">
                 Continuer
               </Link>
             </div>

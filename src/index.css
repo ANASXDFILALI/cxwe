@@ -5,4 +5,20 @@
 html, body {
   overflow-x: hidden;
   max-width: 100vw;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background-color: #F5F1EB;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer base {
+  * {
+    border-color: #EDE8DE;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }

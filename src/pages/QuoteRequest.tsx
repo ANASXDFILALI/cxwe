@@ -94,14 +94,14 @@ function Field({ label, required, children }: { label: string; required?: boolea
   );
 }
 
-const INPUT = 'w-full border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition bg-white';
+const INPUT = 'w-full border border-ma-sand rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-ma-navy focus:ring-2 focus:ring-ma-navy/5 transition bg-white';
 const SELECT = `${INPUT} appearance-none`;
 
 function CheckPill({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
   return (
     <button type="button" onClick={onChange}
       className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all ${
-        checked ? 'bg-amber-500 text-white border-amber-500' : 'border-stone-200 text-stone-600 hover:border-amber-300'
+        checked ? 'bg-ma-red text-white border-ma-red' : 'border-stone-200 text-stone-600 hover:border-ma-red'
       }`}>
       {label}
     </button>
@@ -308,7 +308,7 @@ export default function QuoteRequest() {
   // ── Success screen ─────────────────────────────────────────────────────────
   if (submitted) {
     return (
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4 pt-16">
+      <div className="min-h-screen bg-ma-cream flex items-center justify-center px-4 pt-16">
         <div className="bg-white rounded-3xl shadow-lg p-5 sm:p-10 max-w-lg w-full text-center">
           <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-10 h-10 text-emerald-600" />
@@ -320,7 +320,7 @@ export default function QuoteRequest() {
           </p>
 
           {/* Summary */}
-          <div className="bg-stone-50 rounded-2xl p-4 text-left space-y-3 mb-6">
+          <div className="bg-ma-cream rounded-2xl p-4 text-left space-y-3 mb-6 border border-ma-sand">
             <div className="text-xs text-stone-400 font-semibold uppercase tracking-wide">Récapitulatif</div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
               <div><span className="text-stone-400">Société : </span><strong>{buyer.company_name}</strong></div>
@@ -333,7 +333,7 @@ export default function QuoteRequest() {
                 <p className="text-xs text-stone-400">{selectedProducts.length} produit{selectedProducts.length > 1 ? 's' : ''}</p>
                 {selectedProducts.map(p => (
                   <div key={p.id} className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-stone-200 overflow-hidden shrink-0">
+                    <div className="w-7 h-7 rounded-lg bg-ma-sand overflow-hidden shrink-0">
                       {p.image_url && <img src={p.image_url} alt="" className="w-full h-full object-cover" />}
                     </div>
                     <span className="text-xs text-stone-700 font-medium truncate flex-1">{p.name}</span>
@@ -344,11 +344,11 @@ export default function QuoteRequest() {
             )}
           </div>
 
-          <p className="text-xs text-stone-400 mb-6">Urgences : <a href="tel:+212605268946" className="text-amber-600">+212 605 268 946</a></p>
+          <p className="text-xs text-stone-400 mb-6">Urgences : <a href="tel:+212605268946" className="text-ma-red">+212 605 268 946</a></p>
           <div className="flex gap-3">
-            <Link to="/catalog" className="flex-1 border border-stone-200 text-stone-600 text-sm py-3 rounded-xl hover:bg-stone-50 transition-colors font-medium">Catalogue</Link>
+            <Link to="/catalog" className="flex-1 border border-ma-sand text-stone-600 text-sm py-3 rounded-xl hover:bg-ma-cream transition-colors font-medium">Catalogue</Link>
             <button onClick={() => { setSubmitted(false); setStep(1); setSelectedProducts([]); }}
-              className="flex-1 bg-amber-500 hover:bg-amber-400 text-white text-sm py-3 rounded-xl font-medium transition-colors">
+              className="flex-1 bg-ma-navy hover:bg-[#1A3570] text-white text-sm py-3 rounded-xl font-medium transition-colors">
               Nouvelle demande
             </button>
           </div>
@@ -361,9 +361,9 @@ export default function QuoteRequest() {
   const filteredResults = searchResults.filter(r => !selectedProducts.find(s => s.id === r.id));
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-ma-cream">
       {/* Header */}
-      <div className="bg-stone-800 pt-24 pb-10 px-4">
+      <div className="bg-gradient-to-b from-ma-navy to-[#0A1833] pt-24 pb-10 px-4">
         <div className="max-w-2xl mx-auto">
           <Link to="/catalog" className="inline-flex items-center gap-2 text-stone-400 hover:text-white text-sm mb-4 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Retour au catalogue
@@ -385,13 +385,13 @@ export default function QuoteRequest() {
               <div key={s.id} className="flex items-center flex-1">
                 <div className="flex flex-col items-center">
                   <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${
-                    done ? 'bg-emerald-500' : active ? 'bg-amber-500' : 'bg-stone-200'
+                    done ? 'bg-emerald-500' : active ? 'bg-ma-red' : 'bg-stone-200'
                   }`}>
                     {done
                       ? <CheckCircle className="w-5 h-5 text-white" />
                       : <Icon className={`w-4 h-4 ${active ? 'text-white' : 'text-stone-400'}`} />}
                   </div>
-                  <span className={`text-[9px] sm:text-xs mt-1 font-medium text-center hidden sm:block ${active ? 'text-amber-600' : done ? 'text-emerald-600' : 'text-stone-400'}`}>
+                  <span className={`text-[9px] sm:text-xs mt-1 font-medium text-center hidden sm:block ${active ? 'text-ma-red' : done ? 'text-emerald-600' : 'text-stone-400'}`}>
                     {s.label}
                   </span>
                 </div>
@@ -412,7 +412,7 @@ export default function QuoteRequest() {
             {step === 1 && (
               <div className="space-y-5">
                 <h2 className="text-base font-bold text-stone-800 pb-3 border-b border-stone-100 flex items-center gap-2">
-                  <User className="w-4 h-4 text-amber-500" /> Informations acheteur
+                  <User className="w-4 h-4 text-ma-gold" /> Informations acheteur
                 </h2>
 
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -473,7 +473,7 @@ export default function QuoteRequest() {
             {step === 2 && (
               <div className="space-y-5">
                 <h2 className="text-base font-bold text-stone-800 pb-3 border-b border-stone-100 flex items-center gap-2">
-                  <Package className="w-4 h-4 text-amber-500" /> Produits & Quantités
+                  <Package className="w-4 h-4 text-ma-gold" /> Produits & Quantités
                 </h2>
 
                 {/* Search mode toggle */}
@@ -495,7 +495,7 @@ export default function QuoteRequest() {
                 {selectedProducts.length > 0 && (
                   <div className="space-y-2">
                     {selectedProducts.map(p => (
-                      <div key={p.id} className="flex items-start gap-3 bg-stone-50 border border-stone-200 rounded-xl p-3">
+                      <div key={p.id} className="flex items-start gap-3 bg-ma-cream border border-ma-sand rounded-xl p-3">
                         <div className="w-12 h-12 rounded-xl bg-white border border-stone-200 overflow-hidden shrink-0">
                           {p.image_url
                             ? <img src={p.image_url} alt={p.name} className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
@@ -512,7 +512,7 @@ export default function QuoteRequest() {
                               value={p.quantity}
                               onChange={e => updateProduct(p.id, 'quantity', e.target.value)}
                               placeholder="Quantité"
-                              className="flex-1 border border-stone-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-amber-400 bg-white"
+                              className="flex-1 border border-ma-sand rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-ma-gold bg-white"
                             />
                             <select
                               value={p.unit}
@@ -536,7 +536,7 @@ export default function QuoteRequest() {
                 <div ref={searchRef} className="relative">
                   <div className="relative">
                     <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
-                    {searching && <Loader2 className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-500 animate-spin" />}
+                    {searching && <Loader2 className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-ma-gold animate-spin" />}
                     <input type="text" value={productQuery}
                       onChange={e => setProductQuery(e.target.value)}
                       onFocus={() => filteredResults.length > 0 && setShowDropdown(true)}
@@ -585,7 +585,7 @@ export default function QuoteRequest() {
             {step === 3 && (
               <div className="space-y-5">
                 <h2 className="text-base font-bold text-stone-800 pb-3 border-b border-stone-100 flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-amber-500" /> Conditions commerciales
+                  <FileText className="w-4 h-4 text-ma-gold" /> Conditions commerciales
                 </h2>
 
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -644,7 +644,7 @@ export default function QuoteRequest() {
             {step === 4 && (
               <div className="space-y-5">
                 <h2 className="text-base font-bold text-stone-800 pb-3 border-b border-stone-100 flex items-center gap-2">
-                  <Settings2 className="w-4 h-4 text-amber-500" /> Exigences & Notes
+                  <Settings2 className="w-4 h-4 text-ma-gold" /> Exigences & Notes
                 </h2>
 
                 <Field label="Certifications requises">
@@ -670,19 +670,19 @@ export default function QuoteRequest() {
                 </Field>
 
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <label className="flex items-start gap-3 cursor-pointer p-3 border border-stone-200 rounded-xl hover:bg-stone-50 transition-colors">
+                  <label className="flex items-start gap-3 cursor-pointer p-3 border border-ma-sand rounded-xl hover:bg-ma-cream transition-colors">
                     <input type="checkbox" checked={reqs.private_label}
                       onChange={e => setReqs(r => ({ ...r, private_label: e.target.checked }))}
-                      className="mt-0.5 w-4 h-4 rounded border-stone-300 text-amber-500" />
+                      className="mt-0.5 w-4 h-4 rounded border-stone-300 text-ma-gold" />
                     <div>
                       <p className="text-sm font-semibold text-stone-800">Marque distributeur</p>
                       <p className="text-xs text-stone-400">Je souhaite un étiquetage à ma marque (private label)</p>
                     </div>
                   </label>
-                  <label className="flex items-start gap-3 cursor-pointer p-3 border border-stone-200 rounded-xl hover:bg-stone-50 transition-colors">
+                  <label className="flex items-start gap-3 cursor-pointer p-3 border border-ma-sand rounded-xl hover:bg-ma-cream transition-colors">
                     <input type="checkbox" checked={reqs.sample_request}
                       onChange={e => setReqs(r => ({ ...r, sample_request: e.target.checked }))}
-                      className="mt-0.5 w-4 h-4 rounded border-stone-300 text-amber-500" />
+                      className="mt-0.5 w-4 h-4 rounded border-stone-300 text-ma-gold" />
                     <div>
                       <p className="text-sm font-semibold text-stone-800">Demande d'échantillons</p>
                       <p className="text-xs text-stone-400">Je souhaite recevoir des échantillons avant commande</p>
@@ -698,7 +698,7 @@ export default function QuoteRequest() {
                 </Field>
 
                 {/* Quick recap */}
-                <div className="bg-stone-50 rounded-xl p-4 text-xs space-y-1 text-stone-500">
+                <div className="bg-ma-cream border border-ma-sand rounded-xl p-4 text-xs space-y-1 text-stone-500">
                   <p className="font-semibold text-stone-700 mb-2">Récapitulatif avant envoi</p>
                   <p><span className="font-medium">Acheteur :</span> {buyer.company_name} — {buyer.contact_name} ({buyer.email})</p>
                   <p><span className="font-medium">Produits :</span> {selectedProducts.length} produit{selectedProducts.length > 1 ? 's' : ''} sélectionné{selectedProducts.length > 1 ? 's' : ''}</p>
@@ -718,28 +718,28 @@ export default function QuoteRequest() {
           <div className="flex gap-3 mt-5">
             {step > 1 && (
               <button type="button" onClick={() => setStep(s => s - 1)}
-                className="flex items-center gap-2 border border-stone-200 text-stone-600 text-sm font-medium px-5 py-3 rounded-xl hover:bg-white transition-colors bg-stone-50">
+                className="flex items-center gap-2 border border-ma-sand text-stone-600 text-sm font-medium px-5 py-3 rounded-xl hover:bg-white transition-colors bg-ma-cream">
                 <ArrowLeft className="w-4 h-4" /> Précédent
               </button>
             )}
 
             {step < 4 ? (
               <button type="button" onClick={() => { setError(''); if (canProceed()) setStep(s => s + 1); else setError('Veuillez compléter les champs obligatoires avant de continuer.'); }}
-                className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold py-3 rounded-xl transition-colors">
+                className="flex-1 flex items-center justify-center gap-2 bg-ma-red hover:bg-[#9B1E24] text-white text-sm font-semibold py-3 rounded-xl transition-colors">
                 Suivant <ArrowRight className="w-4 h-4" />
               </button>
             ) : (
               <button type="submit" disabled={submitting}
-                className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 disabled:opacity-60 text-white text-sm font-semibold py-3 rounded-xl transition-colors">
+                className="flex-1 flex items-center justify-center gap-2 bg-ma-red hover:bg-[#9B1E24] disabled:opacity-60 text-white text-sm font-semibold py-3 rounded-xl transition-colors">
                 {submitting ? <><Loader2 className="w-4 h-4 animate-spin" /> Envoi…</> : <><Send className="w-4 h-4" /> Envoyer la demande de proforma</>}
               </button>
             )}
           </div>
 
           <p className="text-center text-xs text-stone-400 mt-4">
-            <a href="mailto:filalianas0001@gmail.com" className="text-amber-600 hover:underline">filalianas0001@gmail.com</a>
+            <a href="mailto:filalianas0001@gmail.com" className="text-ma-red hover:underline">filalianas0001@gmail.com</a>
             {' '}/{' '}
-            <a href="tel:+212605268946" className="text-amber-600 hover:underline">+212 605 268 946</a>
+            <a href="tel:+212605268946" className="text-ma-red hover:underline">+212 605 268 946</a>
           </p>
         </form>
       </div>

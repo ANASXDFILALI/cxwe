@@ -19,7 +19,7 @@ function Section({ icon: Icon, title, children }: {
   icon: React.ElementType; title: string; children: React.ReactNode;
 }) {
   return (
-    <div className="bg-white border border-stone-100 rounded-2xl p-5 shadow-sm">
+    <div className="bg-white border border-ma-sand/70 rounded-2xl p-5 shadow-card">
       <h2 className="flex items-center gap-2 text-sm font-semibold text-stone-700 mb-4">
         <Icon className="w-4 h-4 text-ma-red" />
         {title}
@@ -98,11 +98,11 @@ export default function ProductDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-50 pt-24">
+      <div className="min-h-screen bg-ma-cream pt-24">
         <div className="max-w-5xl mx-auto px-4 py-12 animate-pulse">
           <div className="h-6 bg-stone-200 rounded w-40 mb-8" />
           <div className="grid md:grid-cols-2 gap-10">
-            <div className="rounded-2xl bg-stone-200 aspect-square" />
+            <div className="rounded-2xl bg-ma-sand aspect-square" />
             <div className="space-y-4">
               <div className="h-8 bg-stone-200 rounded w-3/4" />
               <div className="h-4 bg-stone-200 rounded w-full" />
@@ -121,7 +121,7 @@ export default function ProductDetail() {
   const categoryName = product.category?.name;
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-ma-cream">
       {/* Header */}
       <div className="bg-ma-navy pt-24 pb-8 px-4">
         <div className="max-w-5xl mx-auto">
@@ -227,7 +227,7 @@ export default function ProductDetail() {
 
             {/* Détails (checklist) */}
             {product.details && product.details.length > 0 && (
-              <div className="bg-stone-50 rounded-xl p-4 mb-5">
+              <div className="bg-ma-cream rounded-xl p-4 mb-5">
                 <ul className="space-y-2">
                   {product.details.map((d, i) => (
                     <li key={i} className="flex items-start gap-2.5 text-sm text-stone-700">
@@ -422,7 +422,7 @@ export default function ProductDetail() {
               {product.nutrition_texte && (
                 <div>
                   <p className="text-xs font-semibold text-stone-500 mb-1.5">Informations nutritionnelles</p>
-                  <pre className="text-xs text-stone-700 font-mono leading-relaxed whitespace-pre-wrap bg-stone-50 rounded-xl p-3">
+                  <pre className="text-xs text-stone-700 font-mono leading-relaxed whitespace-pre-wrap bg-ma-cream rounded-xl p-3">
                     {product.nutrition_texte}
                   </pre>
                 </div>
