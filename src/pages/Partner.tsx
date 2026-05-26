@@ -40,7 +40,7 @@ const BENEFITS = [
   { icon: BarChart3,'title': 'Visibilité marché', desc: 'Votre produit référencé dans notre catalogue B2B consulté par des acheteurs internationaux.' },
 ];
 
-const INPUT = 'w-full border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition bg-white';
+const INPUT = 'w-full border border-stone-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-ma-red focus:ring-2 focus:ring-red-50 transition bg-white';
 const SELECT = `${INPUT} appearance-none`;
 
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
@@ -58,7 +58,7 @@ function CheckPill({ label, checked, onChange }: { label: string; checked: boole
   return (
     <button type="button" onClick={onChange}
       className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all ${
-        checked ? 'bg-amber-500 text-white border-amber-500' : 'border-stone-200 text-stone-600 hover:border-amber-300'
+        checked ? 'bg-ma-red text-white border-ma-red' : 'border-stone-200 text-stone-600 hover:border-ma-red'
       }`}>
       {label}
     </button>
@@ -81,7 +81,7 @@ function FAQ({ q, a }: { q: string; a: string }) {
       <button type="button" onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between py-4 text-left gap-4">
         <span className="font-medium text-stone-800 text-sm">{q}</span>
-        {open ? <ChevronUp className="w-4 h-4 text-amber-500 shrink-0" /> : <ChevronDown className="w-4 h-4 text-stone-400 shrink-0" />}
+        {open ? <ChevronUp className="w-4 h-4 text-ma-red shrink-0" /> : <ChevronDown className="w-4 h-4 text-stone-400 shrink-0" />}
       </button>
       {open && <p className="text-stone-500 text-sm pb-4 leading-relaxed">{a}</p>}
     </div>
@@ -168,7 +168,7 @@ export default function Partner() {
             Merci <strong>{producer.contact_name}</strong> pour votre intérêt.
             Notre équipe commerciale étudiera votre dossier et vous contactera sous <strong>72 h</strong> à l'adresse <strong>{producer.email}</strong>.
           </p>
-          <div className="bg-amber-50 rounded-2xl p-4 text-left space-y-2 mb-6 text-xs text-stone-600">
+          <div className="bg-red-50 rounded-2xl p-4 text-left space-y-2 mb-6 text-xs text-stone-600">
             <p><span className="font-semibold">Entreprise :</span> {producer.company_name}</p>
             <p><span className="font-semibold">Produit :</span> {product.product_name} ({product.product_category})</p>
             {xp.target_markets.length > 0 && <p><span className="font-semibold">Marchés cibles :</span> {xp.target_markets.join(', ')}</p>}
@@ -177,7 +177,7 @@ export default function Partner() {
             <Link to="/" className="flex-1 border border-stone-200 text-stone-600 text-sm py-3 rounded-xl hover:bg-stone-50 font-medium">
               Accueil
             </Link>
-            <Link to="/catalog" className="flex-1 bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold py-3 rounded-xl">
+            <Link to="/catalog" className="flex-1 bg-ma-red hover:bg-[#9B1E24] text-white text-sm font-semibold py-3 rounded-xl">
               Voir le catalogue
             </Link>
           </div>
@@ -196,29 +196,15 @@ export default function Partner() {
     <div className="min-h-screen bg-stone-50">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <div className="relative bg-stone-900 pt-24 pb-16 px-4 overflow-hidden">
-        {/* pattern overlay */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-10" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="partnerPat" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
-              <polygon points="30,4 36,22 54,22 40,33 46,51 30,40 14,51 20,33 6,22 24,22"
-                fill="none" stroke="#C89B3C" strokeWidth="0.7" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#partnerPat)" />
-        </svg>
-        {/* corner lines */}
-        <div className="absolute top-6 left-6 w-12 h-12 border-l border-t border-amber-600/30" />
-        <div className="absolute top-6 right-6 w-12 h-12 border-r border-t border-amber-600/30" />
-
+      <div className="relative bg-ma-navy pt-24 pb-16 px-4 overflow-hidden">
         <div className="relative max-w-3xl mx-auto text-center">
           <Link to="/" className="inline-flex items-center gap-2 text-stone-400 hover:text-white text-sm mb-6 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Retour
           </Link>
           <div className="flex items-center justify-center gap-3 mb-5">
-            <div className="h-px w-10 bg-amber-600/50" />
-            <Handshake className="w-5 h-5 text-amber-400" />
-            <div className="h-px w-10 bg-amber-600/50" />
+            <div className="h-px w-10 bg-ma-red/50" />
+            <Handshake className="w-5 h-5 text-ma-red" />
+            <div className="h-px w-10 bg-ma-red/50" />
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
             Rejoignez Notre Réseau Export
@@ -235,8 +221,8 @@ export default function Partner() {
         <div className="max-w-5xl mx-auto px-4 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {BENEFITS.map(b => (
             <div key={b.title} className="flex items-start gap-3">
-              <div className="w-9 h-9 bg-amber-50 rounded-xl flex items-center justify-center shrink-0">
-                <b.icon className="w-4 h-4 text-amber-600" />
+              <div className="w-9 h-9 bg-red-50 rounded-xl flex items-center justify-center shrink-0">
+                <b.icon className="w-4 h-4 text-ma-red" />
               </div>
               <div>
                 <p className="text-sm font-semibold text-stone-800">{b.title}</p>
@@ -258,16 +244,16 @@ export default function Partner() {
               <div key={s.id} className="flex items-center flex-1">
                 <div className="flex flex-col items-center">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
-                    done ? 'bg-emerald-500 text-white' : active ? 'bg-amber-500 text-white' : 'bg-stone-200 text-stone-400'
+                    done ? 'bg-ma-green text-white' : active ? 'bg-ma-red text-white' : 'bg-stone-200 text-stone-400'
                   }`}>
                     {done ? <CheckCircle className="w-4 h-4" /> : s.id}
                   </div>
-                  <span className={`text-[10px] sm:text-xs mt-1 font-medium text-center hidden sm:block ${active ? 'text-amber-600' : done ? 'text-emerald-600' : 'text-stone-400'}`}>
+                  <span className={`text-[10px] sm:text-xs mt-1 font-medium text-center hidden sm:block ${active ? 'text-ma-red' : done ? 'text-ma-green' : 'text-stone-400'}`}>
                     {s.label}
                   </span>
                 </div>
                 {i < STEPS.length - 1 && (
-                  <div className={`flex-1 h-0.5 mx-2 mb-4 ${done ? 'bg-emerald-400' : 'bg-stone-200'}`} />
+                  <div className={`flex-1 h-0.5 mx-2 mb-4 ${done ? 'bg-ma-green' : 'bg-stone-200'}`} />
                 )}
               </div>
             );
@@ -282,7 +268,7 @@ export default function Partner() {
             {step === 1 && (
               <>
                 <h2 className="text-base font-bold text-stone-800 pb-3 border-b border-stone-100 flex items-center gap-2">
-                  <Factory className="w-4 h-4 text-amber-500" /> Votre entreprise
+                  <Factory className="w-4 h-4 text-ma-red" /> Votre entreprise
                 </h2>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <Field label="Raison sociale" required>
@@ -330,7 +316,7 @@ export default function Partner() {
             {step === 2 && (
               <>
                 <h2 className="text-base font-bold text-stone-800 pb-3 border-b border-stone-100 flex items-center gap-2">
-                  <Package className="w-4 h-4 text-amber-500" /> Votre produit
+                  <Package className="w-4 h-4 text-ma-red" /> Votre produit
                 </h2>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <Field label="Nom du produit" required>
@@ -384,13 +370,13 @@ export default function Partner() {
             {step === 3 && (
               <>
                 <h2 className="text-base font-bold text-stone-800 pb-3 border-b border-stone-100 flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-amber-500" /> Expérience & Marchés cibles
+                  <Globe className="w-4 h-4 text-ma-red" /> Expérience & Marchés cibles
                 </h2>
 
                 <label className="flex items-start gap-3 cursor-pointer p-3 border border-stone-200 rounded-xl hover:bg-stone-50 transition-colors">
                   <input type="checkbox" checked={xp.already_exporting}
                     onChange={e => setXp(x => ({ ...x, already_exporting: e.target.checked }))}
-                    className="mt-0.5 w-4 h-4 rounded border-stone-300 text-amber-500" />
+                    className="mt-0.5 w-4 h-4 rounded border-stone-300 text-ma-red" />
                   <div>
                     <p className="text-sm font-semibold text-stone-800">J'exporte déjà à l'international</p>
                     <p className="text-xs text-stone-400">Cochez si vous avez déjà des expériences d'export en cours ou passées.</p>
@@ -437,7 +423,7 @@ export default function Partner() {
                 </Field>
 
                 {/* Recap */}
-                <div className="bg-amber-50 rounded-xl p-4 text-xs space-y-1 text-stone-600">
+                <div className="bg-red-50 rounded-xl p-4 text-xs space-y-1 text-stone-600">
                   <p className="font-semibold text-stone-700 mb-2">Récapitulatif avant envoi</p>
                   <p><span className="font-medium">Entreprise :</span> {producer.company_name} — {producer.city || producer.country}</p>
                   <p><span className="font-medium">Produit :</span> {product.product_name} ({product.product_category})</p>
@@ -467,12 +453,12 @@ export default function Partner() {
                   if (canProceed()) setStep(s => (s + 1) as 2 | 3);
                   else setError('Veuillez compléter les champs obligatoires.');
                 }}
-                className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold py-3 rounded-xl transition-colors">
+                className="flex-1 flex items-center justify-center gap-2 bg-ma-red hover:bg-[#9B1E24] text-white text-sm font-semibold py-3 rounded-xl transition-colors">
                 Suivant <ArrowRight className="w-4 h-4" />
               </button>
             ) : (
               <button type="submit" disabled={submitting}
-                className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 disabled:opacity-60 text-white text-sm font-semibold py-3 rounded-xl transition-colors">
+                className="flex-1 flex items-center justify-center gap-2 bg-ma-red hover:bg-[#9B1E24] disabled:opacity-60 text-white text-sm font-semibold py-3 rounded-xl transition-colors">
                 {submitting
                   ? <><Loader2 className="w-4 h-4 animate-spin" /> Envoi…</>
                   : <><Send className="w-4 h-4" /> Envoyer mon dossier</>}
@@ -481,9 +467,9 @@ export default function Partner() {
           </div>
 
           <p className="text-center text-xs text-stone-400 mt-4">
-            Questions ? <a href="mailto:filalianas0001@gmail.com" className="text-amber-600 hover:underline">filalianas0001@gmail.com</a>
+            Questions ? <a href="mailto:filalianas0001@gmail.com" className="text-ma-red hover:underline">filalianas0001@gmail.com</a>
             {' · '}
-            <a href="tel:+212605268946" className="text-amber-600 hover:underline">+212 605 268 946</a>
+            <a href="tel:+212605268946" className="text-ma-red hover:underline">+212 605 268 946</a>
           </p>
         </form>
 
@@ -500,11 +486,11 @@ export default function Partner() {
         </div>
 
         {/* ── Social proof mini ─────────────────────────────────────────── */}
-        <div className="mt-12 bg-stone-800 rounded-2xl p-8 text-center">
+        <div className="mt-12 bg-ma-navy rounded-2xl p-8 text-center">
           <div className="flex justify-center gap-6 mb-4">
             {[Leaf, Package, Globe].map((Icon, i) => (
-              <div key={i} className="w-10 h-10 bg-amber-500/20 rounded-xl flex items-center justify-center">
-                <Icon className="w-5 h-5 text-amber-400" />
+              <div key={i} className="w-10 h-10 bg-ma-red/20 rounded-xl flex items-center justify-center">
+                <Icon className="w-5 h-5 text-ma-red" />
               </div>
             ))}
           </div>

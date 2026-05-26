@@ -21,7 +21,7 @@ function Section({ icon: Icon, title, children }: {
   return (
     <div className="bg-white border border-stone-100 rounded-2xl p-5 shadow-sm">
       <h2 className="flex items-center gap-2 text-sm font-semibold text-stone-700 mb-4">
-        <Icon className="w-4 h-4 text-amber-500" />
+        <Icon className="w-4 h-4 text-ma-red" />
         {title}
       </h2>
       {children}
@@ -32,7 +32,7 @@ function Section({ icon: Icon, title, children }: {
 function Chip({ label, color = 'stone' }: { label: string; color?: string }) {
   const palette: Record<string, string> = {
     stone: 'bg-stone-100 text-stone-600',
-    amber: 'bg-amber-50 text-amber-700 border border-amber-100',
+    amber: 'bg-green-50 text-ma-green border border-green-100',
     green: 'bg-emerald-50 text-emerald-700 border border-emerald-100',
     blue: 'bg-blue-50 text-blue-700 border border-blue-100',
     red: 'bg-red-50 text-red-600 border border-red-100',
@@ -123,7 +123,7 @@ export default function ProductDetail() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Header */}
-      <div className="bg-stone-800 pt-24 pb-8 px-4">
+      <div className="bg-ma-navy pt-24 pb-8 px-4">
         <div className="max-w-5xl mx-auto">
           <nav className="flex items-center gap-2 text-sm text-stone-400 mb-4 flex-wrap">
             <Link to="/catalog" className="hover:text-white transition-colors">Catalogue</Link>
@@ -194,7 +194,7 @@ export default function ProductDetail() {
             {/* Badges de statut */}
             <div className="flex flex-wrap gap-2 mb-3">
               {categoryName && (
-                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-3 py-1">
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-ma-green bg-green-50 border border-green-200 rounded-full px-3 py-1">
                   <Tag className="w-3 h-3" />{categoryName}
                 </span>
               )}
@@ -209,7 +209,7 @@ export default function ProductDetail() {
 
             {/* Brand */}
             {product.brand?.name && (
-              <p className="text-sm font-semibold text-blue-600 mb-1">{product.brand.name}</p>
+              <p className="text-sm font-semibold text-ma-navy mb-1">{product.brand.name}</p>
             )}
 
             <h1 className="text-2xl font-bold text-stone-900 leading-snug mb-2">{product.name}</h1>
@@ -221,7 +221,7 @@ export default function ProductDetail() {
             {/* Régimes alimentaires */}
             {product.regimes && product.regimes.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mb-4">
-                {product.regimes.map(r => <Chip key={r} label={r} color="amber" />)}
+                {product.regimes.map(r => <Chip key={r} label={r} color="green" />)}
               </div>
             )}
 
@@ -271,7 +271,7 @@ export default function ProductDetail() {
             <div className="mt-auto space-y-2.5">
               <Link
                 to={`/quote?product=${encodeURIComponent(product.name)}${categoryName ? `&category=${encodeURIComponent(categoryName)}` : ''}`}
-                className="flex items-center justify-center gap-2 w-full bg-amber-500 hover:bg-amber-400 text-white font-semibold py-3 rounded-xl transition-colors shadow-sm"
+                className="flex items-center justify-center gap-2 w-full bg-ma-red hover:bg-[#9B1E24] text-white font-semibold py-3 rounded-xl transition-colors shadow-sm"
               >
                 <MessageSquare className="w-4 h-4" />
                 Demander un devis
@@ -302,7 +302,7 @@ export default function ProductDetail() {
                   {pricingTiers.map((tier, i) => (
                     <tr key={i} className={i === 0 ? 'font-medium text-stone-800' : 'text-stone-600'}>
                       <td className="py-2">{tier.min_quantity.toLocaleString()} unités</td>
-                      <td className="py-2 text-right text-amber-700 font-semibold">
+                      <td className="py-2 text-right text-ma-green font-semibold">
                         {Number(tier.price).toFixed(2)}
                       </td>
                       <td className="py-2 text-right text-stone-400 text-xs hidden sm:table-cell">{tier.currency}</td>
